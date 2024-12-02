@@ -1,4 +1,15 @@
 # Change Log
+## [v3.0.0](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.0.0) (unreleased)
+
+**Features**
+- PHP 8.2 and PHP 8.3 Support
+- Support strict CSP
+- Dark/Light Theme depending on user's settings
+
+**Fixes**
+- Use special characters in custom variables now works
+- Update InfluxDB dashboards for Grafana 11.3.0
+
 ## [v2.0.3](https://github.com/mikesch-mp/icingaweb2-module-grafana/tree/v2.0.3) (2023-04-06)
 **Fixes**
 - Seervices can now be added to dashlets again (#309)

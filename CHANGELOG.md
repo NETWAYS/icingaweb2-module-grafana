@@ -1,6 +1,18 @@
 # Change Log
 ## [v3.0.0](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.0.0) (unreleased)
 
+**BREAKING CHANGES:**
+
+- Remove `enablelink` configuration and permission
+
+A link to the Grafana instance via a small icon is now always
+added to the header in both proxy and iframe mode.
+
+- Rework Caching and rename `indirectproxyrefresh` to `enablecaching`
+
+The use of HTTP caching has been simplyfied.
+It now uses the check interval to determine how long a graph's image is cached.
+
 **Features**
 - PHP 8.2 and PHP 8.3 Support
 - Support strict CSP

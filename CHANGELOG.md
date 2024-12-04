@@ -17,6 +17,7 @@ It now uses the check interval to determine how long a graph's image is cached.
 - PHP 8.2 and PHP 8.3 Support
 - Support strict CSP
 - Dark/Light Theme depending on user's settings (removed the `theme` configuration option)
+- Debug information can be requested via URL parameter (removed the `debug` configuration option)
 
 **Fixes**
 - Use special characters in custom variables now works

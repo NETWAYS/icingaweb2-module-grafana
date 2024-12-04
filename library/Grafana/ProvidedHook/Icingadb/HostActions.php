@@ -11,8 +11,6 @@ use ipl\Web\Widget\Link;
 
 class HostActions extends HostActionsHook
 {
-    protected $defaultTimerange = '1w/w';
-
     public function getActionsForObject(Host $host): array
     {
         if (! Auth::getInstance()->hasPermission('grafana/showall')) {
@@ -20,7 +18,7 @@ class HostActions extends HostActionsHook
         }
 
         $config = Config::module('grafana')->getSection('grafana');
-        $timerange = $config->get('timerangeAll', $this->defaultTimerange);
+        $timerange = $config->get('timerangeAll', '1w/w');
 
         return [
             new Link(

@@ -1,29 +1,18 @@
 # Module configuration
 Here you will learn how to configure the module and details about the options you can choose.
 
-## Global configuration
-
 The configuration can be done via web interface or by editing the configuration ini-file directly.
-
-### Configuration with web interface
-Browse to [/icingaweb2/config/modules#!/icingaweb2/grafana/config](/icingaweb2/config/modules#!/icingaweb2/grafana/config). Here you can set all the options described below.
-
-![Grafana module configuration](images/03-module_grafana_configuration01.png "Grafana module configuration")
-
----
-### Configuration by editing ini-file
 
 On most distributions, if you used the repository as install source, you will find the configuration file in `/etc/icingaweb2/modules/grafana`.
 
-If the directory does not exists create it with 
+If the directory does not exists create it with:
 
 ```bash
 install -d -m 0755 -g icingaweb2 /etc/icingaweb2/modules/grafana
 ```
 
-Then use your preferred editor to create the file config.ini in the just created or existing directory.
+Then use your preferred editor to create the file config.ini in the just created or existing directory. Example:
 
-#### Example config.ini (/etc/icingaweb2/modules/grafana/config.ini)
 
 ```ini
 [grafana]
@@ -40,7 +29,6 @@ defaultdashboard = "icinga2-default"
 defaultdashboardpanelid = "1"
 shadows = "1"
 datasource = "influxdb"
-defaultdashboardstore = "db"
 accessmode = "proxy"
 timeout = "5"
 enablecache = "no"
@@ -53,9 +41,7 @@ ssl_verifypeer = "0"
 ssl_verifyhost = "0"
 ```
 
----
-
-## Options
+## Available Options
 
 |Setting                | Short description|
 |-----------------------|-----------------------|
@@ -71,7 +57,6 @@ ssl_verifyhost = "0"
 |defaultdashboardpanelid| **Required** ID of the panel used in the default dashboard. Defaults to `1`.
 |shadows                | **Optional.** Show shadows around the graphs. ** Defaults to `false`.|
 |defaultorgid           | **Required.** Number of the default organization id where dashboards are located. Defaults to `1`.
-|defaultdashboardstore  | **Optional.** Grafana backend (file or database). Defaults to `Database`.|
 |accessmode             | **Optional.** Controls whether graphs are fetched with curl (`indirectproxy`) or in iframe ('iframe'). Iframe needs `auth.anonymous` enabled in Grafana. Defaults to `indirectproxy`.|
 |timeout                | **Proxy only** **Optional.** Timeout in seconds for proxy mode to fetch images. Defaults to `5`.|
 |authentication         | **Proxy only** Authentication type used to access Grafana. Can be set to `anon`,`token` or `basic`. Defaults to `anon`.
@@ -84,7 +69,6 @@ ssl_verifyhost = "0"
 |publicprotocol         | **Optional** Use a different protocol for the graph links.|
 |custvardisable         | **Optional** Custom variable (vars.idontwanttoseeagraph for example) that will disable graphs. Defaults to `grafana_graph_disable`.|
 |custvarconfig          | **Optional** Custom variable (vars.usegraphconfig for example) that will be used as config name. Defaults to `grafana_graph_config`.|
-|theme                  | **Optional.** Select Grafana theme for the graph (light or dark). Defaults to `light`.|
 |debug                  | **Optional.** Enables the debug information under the graph if the user has permission to see them. Defaults to `disabled`.|
 |ssl_verifypeer         | **Proxy mode only** **Optional.** Verify the peer's SSL certificate. Defaults to `false`.|
 |ssl_verifyhost         | **Proxy mode only** **Optional.** Verify the certificate's name against host. Defaults to `false`.|
@@ -212,9 +196,6 @@ This will overwrite the search order and force the module to use the graph confi
 For example you have `vars.grafana_graph_config = "check_my_tesla"` in your service configuration, the module will look for
 an [graph configuration](04-graph-configuration.md) that is named `check_my_tesla` and use this to render/show the performance graph.
 If there is no such a configuration, the `default-template` will be used.
-
-### theme
-The Grafana theme that will be used. Defaults to `light`.
 
 ### debug
 Show debug information if user has permission to see them. Defaults to `false`.

@@ -58,7 +58,6 @@ trait IcingaDbGrapher
     protected $defaultDashboardPanelId = "1";
     protected $defaultOrgId = "1";
     protected $shadows = false;
-    protected $defaultDashboardStore = "db";
     protected $dataSource = null;
     protected $accessMode = "proxy";
     protected $proxyTimeout = "5";
@@ -72,7 +71,6 @@ trait IcingaDbGrapher
     protected $SSLVerifyPeer = false;
     protected $SSLVerifyHost = "0";
     protected $cacheTime = 300;
-    protected $grafanaVersion = "0";
     protected $defaultdashboarduid;
     protected $object;
     protected $permission;
@@ -89,7 +87,6 @@ trait IcingaDbGrapher
         $this->permission = Auth::getInstance();
         $this->config = Config::module('grafana')->getSection('grafana');
 
-        $this->grafanaVersion = $this->config->get('version', $this->grafanaVersion);
         $this->grafanaHost = $this->config->get('host', $this->grafanaHost);
         if ($this->grafanaHost === null) {
             throw new ConfigurationError(
@@ -565,29 +562,16 @@ trait IcingaDbGrapher
                 )
             );
 
-            if ($this->grafanaVersion === "1") {
-                $grafanaTable->add(
-                    Html::tag(
-                        'tr',
-                        null,
-                        [
-                            Html::tag('th', null, "Dashboard UID"),
-                            Html::tag('td', null, $this->dashboarduid)
-                        ]
-                    )
-                );
-            } else {
-                $grafanaTable->add(
-                    Html::tag(
-                        'tr',
-                        null,
-                        [
-                            Html::tag('th', null, "Dashboard Store"),
-                            Html::tag('td', null, $this->defaultDashboardStore)
-                        ]
-                    )
-                );
-            }
+            $grafanaTable->add(
+                Html::tag(
+                    'tr',
+                    null,
+                    [
+                        Html::tag('th', null, "Dashboard UID"),
+                        Html::tag('td', null, $this->dashboarduid)
+                    ]
+                )
+            );
 
             $grafanaTable->add(
                 Html::tag(

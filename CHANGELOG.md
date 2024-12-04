@@ -16,11 +16,12 @@ It now uses the check interval to determine how long a graph's image is cached.
 **Features**
 - PHP 8.2 and PHP 8.3 Support
 - Support strict CSP
-- Dark/Light Theme depending on user's settings
+- Dark/Light Theme depending on user's settings (removed the `theme` configuration option)
 
 **Fixes**
 - Use special characters in custom variables now works
 - Update InfluxDB dashboards for Grafana 11.3.0
+- Remove unused `defaultdashboardstore` and `version` configuration options
 
 ## [v2.0.3](https://github.com/mikesch-mp/icingaweb2-module-grafana/tree/v2.0.3) (2023-04-06)
 **Fixes**

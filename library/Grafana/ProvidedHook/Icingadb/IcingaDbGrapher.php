@@ -446,7 +446,7 @@ trait IcingaDbGrapher
             $this->customVars = $customVars;
         }
 
-        $return_html = new HtmlDocument();
+        $returnHtml = new HtmlDocument();
 
         // URL for link to external Grafana
         $url = sprintf(
@@ -499,272 +499,13 @@ trait IcingaDbGrapher
                 $html->addHtml($previewHtml);
             }
 
-            $return_html->add($html);
+            $returnHtml->add($html);
         }
 
         // Add a data table with runtime information and configuration for debugging purposes
         if ($this->debug && $this->permission->hasPermission('grafana/debug') && $report === false) {
-            if ($this->accessMode === "indirectproxy") {
-                $usedUrl = $this->pngUrl;
-            } else {
-                $usedUrl = preg_replace('/.*?src\s*=\s*[\'\"](.*?)[\'\"].*/', "$1", $previewHtml);
-            }
-
-            if ($this->accessMode === "iframe") {
-                $this->height = "100%";
-            }
-
-            $return_html->addHtml(HtmlElement::create("h2", null, "Performance Graph Debug"));
-
-            $grafanaTable = HtmlElement::create("table", ["class" => "name-value-table"]);
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Access mode"),
-                        Html::tag('td', null, $this->accessMode)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Authentication type"),
-                        Html::tag('td', null, $this->authentication)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Protocol"),
-                        Html::tag('td', null, $this->protocol)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Grafana Host"),
-                        Html::tag('td', null, $this->grafanaHost)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Dashboard UID"),
-                        Html::tag('td', null, $this->dashboarduid)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Dashboard Name"),
-                        Html::tag('td', null, $this->dashboard)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Panel ID"),
-                        Html::tag('td', null, $this->panelId)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Organization ID"),
-                        Html::tag('td', null, $this->orgId)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Organization ID"),
-                        Html::tag('td', null, $this->orgId)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Theme"),
-                        Html::tag('td', null, $this->grafanaTheme)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Timerange"),
-                        Html::tag('td', null, $this->timerange)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Timerangeto"),
-                        Html::tag('td', null, $this->timerangeto)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Height"),
-                        Html::tag('td', null, $this->height)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Width"),
-                        Html::tag('td', null, $this->width)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Custom Variables"),
-                        Html::tag('td', null, $this->customVars)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Graph URL"),
-                        Html::tag('td', null, $usedUrl)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Disable graph custom variable"),
-                        Html::tag('td', null, $this->custvardisable)
-                    ]
-                )
-            );
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Graph config custom variable"),
-                        Html::tag('td', null, $this->custvarconfig)
-                    ]
-                )
-            );
-
-            if (isset($customvars[$this->custvarconfig])) {
-                $grafanaTable->add(
-                    Html::tag(
-                        'tr',
-                        null,
-                        [
-                            Html::tag('th', null, $this->custvarconfig),
-                            Html::tag('td', null, $customvars[$this->custvarconfig])
-                        ]
-                    )
-                );
-            }
-
-            $grafanaTable->add(
-                Html::tag(
-                    'tr',
-                    null,
-                    [
-                        Html::tag('th', null, "Shadows"),
-                        Html::tag('td', null, (($this->shadows) ? 'Yes' : 'No'))
-                    ]
-                )
-            );
-
-            if ($this->accessMode === "proxy") {
-                $grafanaTable->add(
-                    Html::tag(
-                        'tr',
-                        null,
-                        [
-                            Html::tag('th', null, "SSL Verify Peer"),
-                            Html::tag('td', null, (($this->SSLVerifyPeer) ? 'Yes' : 'No'))
-                        ]
-                    )
-                );
-
-                $grafanaTable->add(
-                    Html::tag(
-                        'tr',
-                        null,
-                        [
-                            Html::tag('th', null, "SSL Verify Host"),
-                            Html::tag('td', null, (($this->SSLVerifyHost) ? 'Yes' : 'No'))
-                        ]
-                    )
-                );
-            }
-
-            $return_html->add($grafanaTable);
+            $returnHtml->addHtml(HtmlElement::create('h2', null, 'Performance Graph Debug'));
+            $returnHtml->add($this->createDebugTable());
         }
 
         $htmlForObject = HtmlElement::create(
@@ -774,8 +515,274 @@ trait IcingaDbGrapher
 
         $htmlForObject->add($this->title);
         $htmlForObject->add($menu);
-        $htmlForObject->add($return_html);
+        $htmlForObject->add($returnHtml);
         return $htmlForObject;
+    }
+
+    /**
+     * createDebugTable creates a data table with runtime information and configuration for debugging purposes
+     */
+    private function createDebugTable()
+    {
+        if ($this->accessMode === 'indirectproxy') {
+            $usedUrl = $this->pngUrl;
+        } else {
+            $usedUrl = preg_replace('/.*?src\s*=\s*[\'\"](.*?)[\'\"].*/', "$1", $previewHtml);
+        }
+
+        if ($this->accessMode === 'iframe') {
+            $this->height = '100%';
+        }
+
+        $grafanaTable = HtmlElement::create('table', ['class' => 'name-value-table']);
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Access mode'),
+                    Html::tag('td', null, $this->accessMode)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Authentication type'),
+                    Html::tag('td', null, $this->authentication)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Protocol'),
+                    Html::tag('td', null, $this->protocol)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Grafana Host'),
+                    Html::tag('td', null, $this->grafanaHost)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Dashboard UID'),
+                    Html::tag('td', null, $this->dashboarduid)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Dashboard Name'),
+                    Html::tag('td', null, $this->dashboard)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Panel ID'),
+                    Html::tag('td', null, $this->panelId)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Organization ID'),
+                    Html::tag('td', null, $this->orgId)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Organization ID'),
+                    Html::tag('td', null, $this->orgId)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Theme'),
+                    Html::tag('td', null, $this->grafanaTheme)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Timerange'),
+                    Html::tag('td', null, $this->timerange)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Timerangeto'),
+                    Html::tag('td', null, $this->timerangeto)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Height'),
+                    Html::tag('td', null, $this->height)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Width'),
+                    Html::tag('td', null, $this->width)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Custom Variables'),
+                    Html::tag('td', null, $this->customVars)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Graph URL'),
+                    Html::tag('td', null, $usedUrl)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Disable graph custom variable'),
+                    Html::tag('td', null, $this->custvardisable)
+                ]
+            )
+        );
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Graph config custom variable'),
+                    Html::tag('td', null, $this->custvarconfig)
+                ]
+            )
+        );
+
+        if (isset($customvars[$this->custvarconfig])) {
+            $grafanaTable->add(
+                Html::tag(
+                    'tr',
+                    null,
+                    [
+                        Html::tag('th', null, $this->custvarconfig),
+                        Html::tag('td', null, $customvars[$this->custvarconfig])
+                    ]
+                )
+            );
+        }
+
+        $grafanaTable->add(
+            Html::tag(
+                'tr',
+                null,
+                [
+                    Html::tag('th', null, 'Shadows'),
+                    Html::tag('td', null, (($this->shadows) ? 'Yes' : 'No'))
+                ]
+            )
+        );
+
+        if ($this->accessMode === "proxy") {
+            $grafanaTable->add(
+                Html::tag(
+                    'tr',
+                    null,
+                    [
+                        Html::tag('th', null, 'SSL Verify Peer'),
+                        Html::tag('td', null, (($this->SSLVerifyPeer) ? 'Yes' : 'No'))
+                    ]
+                )
+            );
+
+            $grafanaTable->add(
+                Html::tag(
+                    'tr',
+                    null,
+                    [
+                        Html::tag('th', null, 'SSL Verify Host'),
+                        Html::tag('td', null, (($this->SSLVerifyHost) ? 'Yes' : 'No'))
+                    ]
+                )
+            );
+        }
+
+        return $grafanaTable;
     }
 
     /**

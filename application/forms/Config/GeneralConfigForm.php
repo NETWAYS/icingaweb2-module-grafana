@@ -312,14 +312,5 @@ class GeneralConfigForm extends ConfigForm
                 ]
             );
         }
-        $this->addElement(
-            'checkbox',
-            'grafana_debug',
-            [
-                'value' => false,
-                'label' => $this->translate('Show debug'),
-                'description' => $this->translate('Show debugging information.'),
-            ]
-        );
     }
 }

@@ -36,7 +36,6 @@ usepublic = "no"
 publichost = "otherhost:3000"
 publicprotocol = "http"
 custvardisable = "idontwanttoseeagraph"
-debug = "0"
 ssl_verifypeer = "0"
 ssl_verifyhost = "0"
 ```
@@ -69,7 +68,6 @@ ssl_verifyhost = "0"
 |publicprotocol         | **Optional** Use a different protocol for the graph links.|
 |custvardisable         | **Optional** Custom variable (vars.idontwanttoseeagraph for example) that will disable graphs. Defaults to `grafana_graph_disable`.|
 |custvarconfig          | **Optional** Custom variable (vars.usegraphconfig for example) that will be used as config name. Defaults to `grafana_graph_config`.|
-|debug                  | **Optional.** Enables the debug information under the graph if the user has permission to see them. Defaults to `disabled`.|
 |ssl_verifypeer         | **Proxy mode only** **Optional.** Verify the peer's SSL certificate. Defaults to `false`.|
 |ssl_verifyhost         | **Proxy mode only** **Optional.** Verify the certificate's name against host. Defaults to `false`.|
 
@@ -196,6 +194,3 @@ This will overwrite the search order and force the module to use the graph confi
 For example you have `vars.grafana_graph_config = "check_my_tesla"` in your service configuration, the module will look for
 an [graph configuration](04-graph-configuration.md) that is named `check_my_tesla` and use this to render/show the performance graph.
 If there is no such a configuration, the `default-template` will be used.
-
-### debug
-Show debug information if user has permission to see them. Defaults to `false`.

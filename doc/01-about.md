@@ -11,6 +11,15 @@ Add Grafana graphs into Icinga Web 2 to display performance metrics.
 
 To add a graph to your dashboard click on the small clock left of the timerange menu of a graph.
 
+## Permissions
+
+The module provides the following permissions:
+
+* `grafana/graphconfig`, Allow to configure graphs.
+* `grafana/graph`, Allow to view graphs in dashboards.
+* `grafana/showall`, Allow access to see all graphs of a host.
+* `grafana/debug` Allow to see debug information for graphs (can be accessed via the URL parameter `&grafanaDebug`).
+
 ## Show all graphs
 
 To see all graphs on one page, click on the `Show all graphs` link in a host object view.

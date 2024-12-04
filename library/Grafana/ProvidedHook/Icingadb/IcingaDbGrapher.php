@@ -67,7 +67,6 @@ trait IcingaDbGrapher
     protected $custvarconfig = "grafana_graph_config";
     protected $repeatable = "no";
     protected $numberMetrics = "1";
-    protected $debug = false;
     protected $SSLVerifyPeer = false;
     protected $SSLVerifyHost = "0";
     protected $cacheTime = 300;
@@ -153,10 +152,6 @@ trait IcingaDbGrapher
          */
         $this->custvarconfig = ($this->config->get('custvarconfig', $this->custvarconfig));
 
-        /**
-         * Show some debug information?
-         */
-        $this->debug = ($this->config->get('debug', $this->debug));
         /**
          * Verify the certificate's name against host
          */
@@ -503,7 +498,7 @@ trait IcingaDbGrapher
         }
 
         // Add a data table with runtime information and configuration for debugging purposes
-        if ($this->debug && $this->permission->hasPermission('grafana/debug') && $report === false) {
+        if (Url::fromRequest()->hasParam('grafanaDebug') && $this->permission->hasPermission('grafana/debug') && $report === false) {
             $returnHtml->addHtml(HtmlElement::create('h2', null, 'Performance Graph Debug'));
             $returnHtml->add($this->createDebugTable());
         }

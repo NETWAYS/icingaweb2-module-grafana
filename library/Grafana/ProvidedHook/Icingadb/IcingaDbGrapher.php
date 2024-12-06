@@ -23,11 +23,19 @@ use ipl\Orm\Model;
 use ipl\Stdlib\Filter;
 use ipl\Web\Url;
 use ipl\Web\Widget\Link;
+use ipl\Web\Widget\Icon;
 
+/**
+ * IcingaDbGrapher contains methods for retrieving and rendering the data from Grafana
+ */
 trait IcingaDbGrapher
 {
     use Database;
     use IcingaDbAuth;
+
+    // Could be constants in the future, but for now we want to keep compatibility
+    protected $GRAFANA_URL = "%s://%s/d/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&from=%s&to=%s&orgId=%s&viewPanel=%s";
+    protected $GRAFANA_URL_SOLO = "%s://%s/d-solo/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&panelId=%s&orgId=%s&theme=%s&from=%s&to=%s";
 
     protected $config;
     protected $graphConfig;
@@ -46,7 +54,6 @@ trait IcingaDbGrapher
     protected $apiToken = null;
     protected $width = 640;
     protected $height = 280;
-    protected $enableLink = true;
     protected $defaultDashboard = "icinga2-default";
     protected $defaultDashboardPanelId = "1";
     protected $defaultOrgId = "1";
@@ -81,6 +88,7 @@ trait IcingaDbGrapher
         $this->title = Html::tag("h2", "Performance Graph");
         $this->permission = Auth::getInstance();
         $this->config = Config::module('grafana')->getSection('grafana');
+
         $this->grafanaVersion = $this->config->get('version', $this->grafanaVersion);
         $this->grafanaHost = $this->config->get('host', $this->grafanaHost);
         if ($this->grafanaHost === null) {
@@ -89,21 +97,20 @@ trait IcingaDbGrapher
             );
         }
 
+        // Set the protocol and host
         $this->protocol = $this->config->get('protocol', $this->protocol);
-        $this->enableLink = $this->config->get('enableLink', $this->enableLink);
-        if ($this->enableLink === "yes" && $this->permission->hasPermission('grafana/enablelink')) {
-            $this->usePublic = $this->config->get('usepublic', $this->usePublic);
-            if ($this->usePublic === "yes") {
-                $this->publicHost = $this->config->get('publichost', $this->publicHost);
-                if ($this->publicHost === null) {
-                    throw new ConfigurationError(
-                        'No Grafana public host configured!'
-                    );
-                }
-                $this->publicProtocol = $this->config->get('publicprotocol', $this->publicProtocol);
-            } else {
-                $this->publicHost = $this->grafanaHost;
-                $this->publicProtocol = $this->protocol;
+        $this->publicHost = $this->grafanaHost;
+        $this->publicProtocol = $this->protocol;
+
+        // Override protocol and host if usePublic is set
+        $this->usePublic = $this->config->get('usepublic', $this->usePublic);
+        if ($this->usePublic === 'yes') {
+            $this->publicHost = $this->config->get('publichost', $this->publicHost);
+            $this->publicProtocol = $this->config->get('publicprotocol', $this->publicProtocol);
+            if ($this->publicHost === null) {
+                throw new ConfigurationError(
+                    'No Grafana public host configured!'
+                );
             }
         }
 
@@ -120,6 +127,7 @@ trait IcingaDbGrapher
             'defaultdashboardpanelid',
             $this->defaultDashboardPanelId
         );
+
         $this->defaultOrgId = $this->config->get('defaultorgid', $this->defaultOrgId);
         $this->grafanaTheme = $this->getUserThemeMode();
         $this->height = $this->config->get('height', $this->height);
@@ -164,7 +172,6 @@ trait IcingaDbGrapher
         /**
          * Username & Password or token
          */
-
         $this->apiToken = $this->config->get('apitoken', $this->apiToken);
         $this->authentication = $this->config->get('authentication');
         if ($this->apiToken === null && $this->authentication === "token") {
@@ -310,8 +317,7 @@ trait IcingaDbGrapher
             $previewHtml->add($imgHtml);
         } elseif ($this->accessMode === "iframe") {
             $iFramesrc = sprintf(
-                "%s://%s/d-solo/%s/%s?" .
-                "var-hostname=%s&var-service=%s&var-command=%s%s&panelId=%s&orgId=%s&theme=%s&from=%s&to=%s",
+                $this->GRAFANA_URL_SOLO,
                 $this->protocol,
                 $this->grafanaHost,
                 $this->dashboarduid,
@@ -339,6 +345,7 @@ trait IcingaDbGrapher
 
             $previewHtml->add($iframeHtml);
         }
+
         return true;
     }
 
@@ -444,6 +451,35 @@ trait IcingaDbGrapher
 
         $return_html = new HtmlDocument();
 
+        // URL for link to external Grafana
+        $url = sprintf(
+            $this->GRAFANA_URL,
+            $this->publicProtocol,
+            $this->publicHost,
+            $this->dashboarduid,
+            $this->dashboard,
+            rawurlencode(($this->dataSource === 'graphite' ? Util::graphiteReplace($hostName) : $hostName)),
+            rawurlencode(
+                ($this->dataSource === 'graphite' ? Util::graphiteReplace($serviceName) : $serviceName)
+            ),
+            rawurlencode($object->checkcommand_name),
+            $this->customVars,
+            urlencode($this->timerange),
+            urlencode($this->timerangeto),
+            $this->orgId,
+            $this->panelId
+        );
+
+        // Add a link to Grafana in the title
+        $this->title->add(new Link(
+            new Icon(
+                'arrow-up-right-from-square',
+                ['title' => 'View in Grafana']
+            ),
+            str_replace('/d-solo/', '/d/', $url),
+            ['target' => '_blank', 'class' => 'external-link']
+        ));
+
         // Hide menu if in reporting or compact mode
         $menu = "";
 
@@ -458,44 +494,18 @@ trait IcingaDbGrapher
             $html = new HtmlDocument();
             $this->panelId = $panelid;
 
-            //image value will be returned as reference
+            // The image value will be returned as reference
             $previewHtml = new HtmlDocument();
             $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml);
-            //do not render URLs on error or if disabled
-            if (! $res
-                || $this->enableLink === "no"
-                || ! $this->permission->hasPermission('grafana/enablelink')) {
+
+            if ($res) {
                 $html->addHtml($previewHtml);
-            } else {
-                $urlFormat = "%s://%s/d/%s/%s" .
-                "?var-hostname=%s&var-service=%s&var-command=%s%s&from=%s&to=%s&orgId=%s&viewPanel=%s";
-
-                $url = sprintf(
-                    $urlFormat,
-                    $this->publicProtocol,
-                    $this->publicHost,
-                    $this->dashboarduid,
-                    $this->dashboard,
-                    rawurlencode(($this->dataSource === "graphite" ? Util::graphiteReplace($hostName) : $hostName)),
-                    rawurlencode(
-                        ($this->dataSource === "graphite" ? Util::graphiteReplace($serviceName) : $serviceName)
-                    ),
-                    rawurlencode($object->checkcommand_name),
-                    $this->customVars,
-                    urlencode($this->timerange),
-                    urlencode($this->timerangeto),
-                    $this->orgId,
-                    $this->panelId
-                );
-
-                $link = new Link($previewHtml, $url, ["target" => "_blank"]);
-
-                $html->add($link);
             }
 
             $return_html->add($html);
         }
 
+        // Add a data table with runtime information and configuration for debugging purposes
         if ($this->debug && $this->permission->hasPermission('grafana/debug') && $report === false) {
             if ($this->accessMode === "indirectproxy") {
                 $usedUrl = $this->pngUrl;

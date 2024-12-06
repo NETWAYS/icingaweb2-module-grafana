@@ -35,7 +35,6 @@ height = "280"
 width = "640"
 timerange = "3h"
 timerangeAll = "1M/M"
-enableLink = "yes"
 defaultorgid = "1"
 defaultdashboard = "icinga2-default"
 defaultdashboardpanelid = "1"
@@ -66,7 +65,6 @@ ssl_verifyhost = "0"
 |width                  | **Optional.** Global graph width in pixel. Defaults to `640`.|
 |timerange              | **Optional.** Global time range for graphs. Defaults to `6h`.|
 |timerangeAll           | **Optional.** Time range for all graphs feature. Defaults to `Previous week`.|
-|enableLink             | **Optional.** Enable/disable graph with a rendered URL to the Grafana dashboard. Defaults to `yes`.|
 |datasource             | **Required for Grafana 4.x only.** Type of the Grafana datasource (`influxdb`, `graphite` or `pnp`). Defaults to `influxdb`.|
 |defaultdashboard       | **Required.** Name of the default dashboard which will be shown for unconfigured graphs. Set to `none` to hide the module output. Defaults to `icinga2-default`.|
 |defaultdashboarduid    | **Required for Grafana 5** The UID of the default dashboard for **Grafana 5**.
@@ -117,9 +115,6 @@ This option can be overwritten by a graph configuration.
 
 ### timerangeAll
 Time range for all graphs feature. Defaults to `Previous week`
-
-### enableLink
-Enable or disable the graphs as a link to the Grafana Server.
 
 ### datasource
 The datasource that Grafana server uses. Can be InfluxDB, Graphite.

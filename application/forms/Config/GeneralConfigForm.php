@@ -271,22 +271,8 @@ class GeneralConfigForm extends ConfigForm
                     'description' => $this->translate('The default graph width in pixels.')
                 ]
             );
-            $this->addElement(
-                'select',
-                'grafana_enableLink',
-                [
-                    'label' => $this->translate('Enable link'),
-                    'value' => 'no',
-                    'multiOptions' => [
-                        'yes' => $this->translate('Yes'),
-                        'no' => $this->translate('No'),
-                    ],
-                    'description' => $this->translate('Image is an link to the dashboard on the Grafana server.'),
-                    'class' => 'autosubmit'
-                ]
-            );
         }
-        if (isset($formData['grafana_enableLink']) && ( $formData['grafana_enableLink'] === 'yes') && ( $formData['grafana_accessmode'] != 'iframe' )) {
+        if (( $formData['grafana_accessmode'] != 'iframe' )) {
             $this->addElement(
                 'select',
                 'grafana_usepublic',

@@ -34,7 +34,6 @@ class IcingadbimgController extends IcingadbGrafanaController
     protected $defaultDashboardPanelId = "1";
     protected $defaultOrgId            = "1";
     protected $shadows                 = false;
-    protected $defaultDashboardStore   = "db";
     protected $dataSource              = null;
     protected $proxyTimeout            = "5";
     protected $custvarconfig           = "grafana_graph_config";
@@ -95,7 +94,6 @@ class IcingadbimgController extends IcingadbGrafanaController
         );
         $this->defaultOrgId = $this->myConfig->get('defaultorgid', $this->defaultOrgId);
         $this->grafanaTheme = $this->getUserThemeMode();
-        $this->defaultDashboardStore = $this->myConfig->get('defaultdashboardstore', $this->defaultDashboardStore);
         $this->height = $this->myConfig->get('height', $this->height);
         $this->width = $this->myConfig->get('width', $this->width);
         $this->proxyTimeout = $this->myConfig->get('proxytimeout', $this->proxyTimeout);

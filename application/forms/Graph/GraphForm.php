@@ -20,7 +20,6 @@ class GraphForm extends ConfigForm
      * @var string
      */
     protected $boundGraph;
-    protected $grafanaVersion;
 
     /**
      * {@inheritdoc}

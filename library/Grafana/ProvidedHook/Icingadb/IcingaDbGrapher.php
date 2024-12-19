@@ -471,7 +471,6 @@ trait IcingaDbGrapher
             }
 
             foreach ($info as $value) {
-
                 // The image value will be returned as reference
                 $previewHtml = new HtmlDocument();
                 $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml, $value);

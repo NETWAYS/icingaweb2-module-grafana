@@ -235,7 +235,7 @@ trait IcingaDbGrapher
      * @return bool
      * @throws \Icinga\Exception\ProgrammingError
      */
-    private function getMyPreviewHtml($serviceName, $hostName, HtmlDocument $previewHtml): bool
+    private function getMyPreviewHtml($serviceName, $hostName, HtmlDocument $previewHtml, $imageFilter = ""): bool
     {
         $imgClass = $this->shadows ? "grafana-img grafana-img-shadows" : "grafana-img";
 
@@ -249,7 +249,8 @@ trait IcingaDbGrapher
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
-                    'cachetime' => $this->cacheTime
+                    'cachetime' => $this->cacheTime,
+                    'imagefilter' => urlencode($imageFilter)
                     ]
                 );
             } else {
@@ -260,7 +261,8 @@ trait IcingaDbGrapher
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
-                    'cachetime' => $this->cacheTime
+                    'cachetime' => $this->cacheTime,
+                    'imagefilter' => urlencode($imageFilter)
                     ]
                 );
             }
@@ -458,12 +460,23 @@ trait IcingaDbGrapher
             $html = new HtmlDocument();
             $this->panelId = $panelid;
 
-            // The image value will be returned as reference
-            $previewHtml = new HtmlDocument();
-            $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml);
+            $flattened_vars = $object->vars;
+            // The $object->vars array is flattened, we unflatten the subarray grafanaimagefiltersarray here:
+            $i = 0;
+            $info = [];
+            while (isset($flattened_vars['grafanaimagefiltersarray[' . $i . ']'])) {
+                $info[$i] = $flattened_vars['grafanaimagefiltersarray[' . $i . ']'];
+                $i++;
+            }
 
-            if ($res) {
-                $html->addHtml($previewHtml);
+            foreach ($info as $value) {
+                // The image value will be returned as reference
+                $previewHtml = new HtmlDocument();
+                $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml, $value);
+
+                if ($res) {
+                    $html->addHtml($previewHtml);
+                }
             }
 
             $returnHtml->add($html);

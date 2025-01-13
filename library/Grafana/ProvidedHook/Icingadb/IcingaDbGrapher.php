@@ -472,7 +472,7 @@ trait IcingaDbGrapher
         // Add a data table with runtime information and configuration for debugging purposes
         if (Url::fromRequest()->hasParam('grafanaDebug') && $this->permission->hasPermission('grafana/debug') && $report === false) {
             $returnHtml->addHtml(HtmlElement::create('h2', null, 'Performance Graph Debug'));
-            $returnHtml->add($this->createDebugTable());
+            $returnHtml->add($this->createDebugTable($previewHtml));
         }
 
         $htmlForObject = HtmlElement::create("div", ["class" => "icinga-module module-grafana"]);
@@ -486,15 +486,12 @@ trait IcingaDbGrapher
     /**
      * createDebugTable creates a data table with runtime information and configuration for debugging purposes
      */
-    private function createDebugTable()
+    private function createDebugTable($previewHtml)
     {
-        if ($this->accessMode === 'indirectproxy') {
-            $usedUrl = $this->pngUrl;
-        } else {
-            $usedUrl = preg_replace('/.*?src\s*=\s*[\'\"](.*?)[\'\"].*/', "$1", $previewHtml);
-        }
+        $usedUrl = $this->pngUrl;
 
         if ($this->accessMode === 'iframe') {
+            $usedUrl = preg_replace('/.*?src\s*=\s*[\'\"](.*?)[\'\"].*/', "$1", $previewHtml);
             $this->height = '100%';
         }
 

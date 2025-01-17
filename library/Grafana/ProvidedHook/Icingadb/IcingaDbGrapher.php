@@ -464,6 +464,16 @@ trait IcingaDbGrapher
             $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml);
 
             if ($res) {
+                // Add Link to Panel if the user has the permission
+                if ($this->permission->hasPermission('grafana/showlink')) {
+                    $linkUrl = $url;
+                    $linkUrl = preg_replace('/(viewPanel=)[^&]+/', '${1}' . $panelid, $linkUrl);
+                    $textLink = new Link('View in Grafana', $linkUrl, ['target' => '_blank', 'class' => 'external-link']);
+                    $html->add($textLink);
+                    $iconLink = new Link(new Icon('arrow-up-right-from-square', ['title' => 'View in Grafana']), $linkUrl, ['target' => '_blank', 'class' => 'external-link']);
+                    $html->add($iconLink);
+                }
+
                 $html->addHtml($previewHtml);
             }
 

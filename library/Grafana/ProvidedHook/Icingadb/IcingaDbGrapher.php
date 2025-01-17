@@ -463,7 +463,13 @@ trait IcingaDbGrapher
             $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml);
 
             if ($res) {
-                $html->addHtml($previewHtml);
+               $linkUrl = $url;
+               $linkUrl = preg_replace('/(viewPanel=)[^&]+/', '${1}' . $panelid, $linkUrl);
+               $textLink = new Link("View in Grafana", $linkUrl, ["target" => "_blank", 'class' => 'external-link']);
+               $html->add($textLink);
+               $iconLink = new Link(new Icon('arrow-up-right-from-square',['title' => 'View in Grafana']), $linkUrl, ["target" => "_blank", 'class' => 'external-link']);
+               $html->add($iconLink);
+               $html->addHtml($previewHtml);
             }
 
             $returnHtml->add($html);
@@ -488,7 +494,7 @@ trait IcingaDbGrapher
      */
     private function createDebugTable($previewHtml)
     {
-        $usedUrl = $this->pngUrl;
+            $usedUrl = $this->pngUrl;
 
         if ($this->accessMode === 'iframe') {
             $usedUrl = preg_replace('/.*?src\s*=\s*[\'\"](.*?)[\'\"].*/', "$1", $previewHtml);

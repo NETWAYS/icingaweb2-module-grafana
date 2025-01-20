@@ -18,7 +18,7 @@ The module provides the following permissions:
 * `grafana/graphconfig`, Allow to configure graphs.
 * `grafana/graph`, Allow to view graphs in dashboards.
 * `grafana/showall`, Allow access to see all graphs of a host.
-* `grafana/showlink` Allow users to see a link to the Grafana instance.
+* `grafana/showlink` Display a link to the Grafana instance.
 * `grafana/debug` Allow to see debug information for graphs (can be accessed via the URL parameter `&grafanaDebug`).
 
 ## Show all graphs

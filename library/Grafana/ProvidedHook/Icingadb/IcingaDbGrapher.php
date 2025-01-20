@@ -434,14 +434,16 @@ trait IcingaDbGrapher
         );
 
         // Add a link to Grafana in the title
-        $this->title->add(new Link(
-            new Icon(
-                'arrow-up-right-from-square',
-                ['title' => 'View in Grafana']
-            ),
-            str_replace('/d-solo/', '/d/', $url),
-            ['target' => '_blank', 'class' => 'external-link']
-        ));
+        if ($this->permission->hasPermission('grafana/showlink')) {
+            $this->title->add(new Link(
+                new Icon(
+                    'arrow-up-right-from-square',
+                    ['title' => 'View in Grafana']
+                ),
+                str_replace('/d-solo/', '/d/', $url),
+                ['target' => '_blank', 'class' => 'external-link']
+            ));
+        }
 
         // Hide menu if in reporting or compact mode
         $menu = "";

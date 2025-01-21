@@ -3,7 +3,6 @@
 namespace Icinga\Module\Grafana\Forms\Config;
 
 use Icinga\Module\Grafana\Helpers\Timeranges;
-use Icinga\Module\Grafana\Helpers\JwtToken;
 use Icinga\Forms\ConfigForm;
 
 /**
@@ -380,15 +379,5 @@ class GeneralConfigForm extends ConfigForm
                 );
             }
         }
-
-        $this->addElement(
-            'checkbox',
-            'grafana_debug',
-            array(
-                'value'=> false,
-                'label' => $this->translate('Show debug'),
-                'description' => $this->translate('Show debuging information.'),
-            )
-        );
     }
 }

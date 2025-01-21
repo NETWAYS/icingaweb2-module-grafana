@@ -310,8 +310,8 @@ trait IcingaDbGrapher
                 urlencode($this->timerangeto)
             );
 
-            if($this->jwtEnable) {
-                $authToken = JwtToken::create($this->jwtUser, time()+$this->jwtExpires, !empty($this->jwtIssuer)?$this->jwtIssuer:null, [ 'roles' => [ 'Viewer' ] ]);
+            if ($this->jwtEnable) {
+                $authToken = JwtToken::create($this->jwtUser, $this->jwtExpires, !empty($this->jwtIssuer) ? $this->jwtIssuer:null, [ 'roles' => [ 'Viewer' ] ]);
                 $iFramesrc .= sprintf("&auth_token=%s", urlencode($authToken));
             }
 

@@ -8,5 +8,3 @@ $this->provideHook('icingadb/IcingadbSupport');
 $this->provideHook('icingadb/HostDetailExtension');
 $this->provideHook('icingadb/ServiceDetailExtension');
 $this->provideHook('ConfigFormEvents', GeneralConfigFormHook::class);
-
-require_once __DIR__ . '/vendor/autoload.php';

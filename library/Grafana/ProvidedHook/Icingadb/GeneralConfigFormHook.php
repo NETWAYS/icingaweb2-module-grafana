@@ -17,7 +17,7 @@ class GeneralConfigFormHook extends ConfigFormEventsHook
 
     public function onSuccess(Form $form)
     {
-        if($form->getElement('grafana_jwtEnable')->getValue()) {
+        if ($form->getElement('grafana_jwtEnable')->getValue()) {
             JwtToken::generateRsaKeys();
         }
     }

@@ -1,22 +1,22 @@
 # JWT Configuration
 
-JWT is used to send a signed token to Grafana, so the graphs only loads if the JWT token is validated by Grafana. If the token is expired or not validated, Grafana will redirect the iframe to the login page.
+JWT is used to send a signed token to Grafana, so the graphs only load if the JWT token is validated by Grafana. If the token is expired or not valid, Grafana will redirect the iframe to the login page.
 
 ### Icinga configuration
-In the Icinga configuration:
+In the Icinga Web configuration:
 
-1. Change "Grafana access" to Iframe and Enable JWT
+1. Change "Grafana access" to "iFrame" and "Enable JWT"
 
 2. Choose an expiration, issuer and user.
-    - A low expiration is recommended, specially because the token is being sent in the url.
+    - A short expiration is recommended, because the token is being sent in the URL.
     - Set an issuer, for a better validation. Must be set the same on both sides. The default is empty, no issuer.
-    - Set and existing Grafana username so the graphs open using that user.
+    - Use an existing Grafana username so the graphs are accessed using that user.
 
 3. When you save the configuration, the RSA keys will be created at /etc/icingaweb2/modules/grafana/ (jwt.key.priv and jwt.key.pub).
     - For now, other directories are not supported, the filenames are hard coded in the file library/Grafana/Helpers/JwtToken.php.
     - If any kind of errors happens while creating the keys (e.g. permission denied), you will have to create the keys and copy them to the directory /etc/icingaweb2/modules/grafana/, use the commands below.
 
-4. The private key (jwt.key.priv), should kept safe, Grafana server only needs the public key. If you have multiple IcingaWeb servers, copy the keys to the other servers.
+4. The private key (jwt.key.priv), should kept safe, Grafana server only needs the public key. If you have multiple Icinga Web servers, copy the keys to the other servers.
 
 ```
 openssl genrsa -out /etc/icingaweb2/modules/grafana/jwt.key.priv 2048
@@ -26,9 +26,9 @@ openssl rsa -in /etc/icingaweb2/modules/grafana/jwt.key.priv -pubout -outform PE
 
 ### Grafana
 
-The configuration options for Grafana JWT Auth can be found at the website: [https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/jwt/](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/jwt/).
+The configuration options for Grafana JWT Auth can be found here: [https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/jwt/](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/jwt/).
 
-Basic grafana.ini:
+Example `grafana.ini`:
 
 ```
 [auth.jwt]
@@ -61,10 +61,10 @@ skip_org_role_sync = true
 
 1. Read the docs, and configure your grafana.ini
 
-2. Copy the PUBLIC key from Icinga (/etc/icingaweb2/modules/grafana/jwt.key.pub) to the path configured in "key_file".
+2. Copy the **public key** from Icinga (/etc/icingaweb2/modules/grafana/jwt.key.pub) to the path configured in "key_file".
 
 3. Enable url_login, header_name and username_claim/email_claim these options are required.
 
 4. Enable allow_embedding in the security section.
 
-5. Restart grafana
+5. Restart Grafana

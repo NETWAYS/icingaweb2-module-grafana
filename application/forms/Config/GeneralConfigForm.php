@@ -343,7 +343,7 @@ class GeneralConfigForm extends ConfigForm
                     'class' => 'autosubmit',
                 )
             );
-            if ($formData['grafana_jwtEnable']) {
+            if (isset($formData['grafana_jwtEnable'])) {
                 $this->addElement(
                     'number',
                     'grafana_jwtExpires',
@@ -361,7 +361,7 @@ class GeneralConfigForm extends ConfigForm
                     array(
                         'placeholder'   => 'https://localhost',
                         'label'         => $this->translate('JWT Issuer'),
-                        'description'   => $this->translate('The issuer of the token (e.g. url of this system). Can be used as a validation when other systems receive the token. Default is empty, no issuer.'),
+                        'description'   => $this->translate('The issuer of the token (e.g. URL of this system). Can be used as a validation when other systems receive the token. Default is empty, no issuer.'),
                         'required'      => false,
                         'class' => 'autosubmit',
                     )
@@ -372,7 +372,7 @@ class GeneralConfigForm extends ConfigForm
                     array(
                         'placeholder'   => 'username',
                         'label'         => $this->translate('JWT Subject (login)'),
-                        'description'   => $this->translate('The username or email to be used as login. Leave empty to use IcingaWeb username.'),
+                        'description'   => $this->translate('The username or email to be used as login. Leave empty to use the Icinga Web username.'),
                         'required'      => false,
                         'class' => 'autosubmit',
                     )

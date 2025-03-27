@@ -131,12 +131,12 @@ class GeneralConfigForm extends ConfigForm
             ]
         );
         $this->addElement(
-            'number',
+            'text',
             'grafana_defaultdashboardpanelid',
             [
                 'value' => '1',
-                'label' => $this->translate('Default panel ID'),
-                'description' => $this->translate('ID of the panel used in the default dashboard.'),
+                'label' => $this->translate('Default panel ID(s)'),
+                'description' => $this->translate('Comma separated IDs of the panels used in the default dashboard.'),
                 'required' => true,
             ]
         );

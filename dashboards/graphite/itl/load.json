@@ -10,21 +10,21 @@
     },
     {
       "name": "VAR_HOSTNAME",
-      "type": "constant",
+      "type": "custom",
       "label": "hostname",
       "value": "null",
       "description": ""
     },
     {
       "name": "VAR_SERVICE",
-      "type": "constant",
+      "type": "custom",
       "label": "service",
       "value": "null",
       "description": ""
     },
     {
       "name": "VAR_COMMAND",
-      "type": "constant",
+      "type": "custom",
       "label": "command",
       "value": "null",
       "description": ""
@@ -210,7 +210,7 @@
           }
         ],
         "query": "${VAR_HOSTNAME}",
-        "type": "constant"
+        "type": "custom"
       },
       {
         "current": {
@@ -227,7 +227,7 @@
           }
         ],
         "query": "${VAR_SERVICE}",
-        "type": "constant"
+        "type": "custom"
       },
       {
         "current": {
@@ -244,7 +244,7 @@
           }
         ],
         "query": "${VAR_COMMAND}",
-        "type": "constant"
+        "type": "custom"
       }
     ]
   },

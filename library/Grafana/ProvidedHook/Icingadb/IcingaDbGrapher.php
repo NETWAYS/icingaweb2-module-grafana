@@ -245,7 +245,7 @@ trait IcingaDbGrapher
      * @return bool
      * @throws \Icinga\Exception\ProgrammingError
      */
-    private function getMyPreviewHtml($serviceName, $hostName, HtmlDocument $previewHtml): bool
+    private function getMyPreviewHtml($serviceName, $hostName, HtmlDocument $previewHtml, $imageFilter = ""): bool
     {
         $imgClass = $this->shadows ? "grafana-img grafana-img-shadows" : "grafana-img";
 
@@ -259,7 +259,8 @@ trait IcingaDbGrapher
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
-                    'cachetime' => $this->cacheTime
+                    'cachetime' => $this->cacheTime,
+                    'imagefilter' => urlencode($imageFilter)
                     ]
                 );
             } else {
@@ -270,7 +271,8 @@ trait IcingaDbGrapher
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
-                    'cachetime' => $this->cacheTime
+                    'cachetime' => $this->cacheTime,
+                    'imagefilter' => urlencode($imageFilter)
                     ]
                 );
             }
@@ -474,23 +476,38 @@ trait IcingaDbGrapher
             $html = new HtmlDocument();
             $this->panelId = $panelid;
 
-            // The image value will be returned as reference
-            $previewHtml = new HtmlDocument();
-            $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml);
-
-            if ($res) {
-                // Add Link to Panel if the user has the permission
-                if ($this->permission->hasPermission('grafana/showlink')) {
-                    $linkUrl = $url;
-                    $linkUrl = preg_replace('/(viewPanel=)[^&]+/', '${1}' . $panelid, $linkUrl);
-                    $textLink = new Link('View in Grafana', $linkUrl, ['target' => '_blank', 'class' => 'external-link']);
-                    $html->add($textLink);
-                    $iconLink = new Link(new Icon('arrow-up-right-from-square', ['title' => 'View in Grafana']), $linkUrl, ['target' => '_blank', 'class' => 'external-link']);
-                    $html->add($iconLink);
-                }
-
-                $html->addHtml($previewHtml);
+            $flattened_vars = $object->vars;
+            // The $object->vars array is flattened, we unflatten the subarray grafanaimagefiltersarray here:
+            $i = 0;
+            $info = [];
+            while (isset($flattened_vars['grafanaimagefiltersarray[' . $i . ']'])) {
+                $info[$i] = $flattened_vars['grafanaimagefiltersarray[' . $i . ']'];
+                $i++;
             }
+
+            $i = 0;
+            do {
+                $value = $info ? $info[$i] : "";
+
+                // The image value will be returned as reference
+                $previewHtml = new HtmlDocument();
+                $res = $this->getMyPreviewHtml($serviceName, $hostName, $previewHtml, $value);
+
+                if ($res) {
+                    // Add Link to Panel if the user has the permission
+                    if ($this->permission->hasPermission('grafana/showlink')) {
+                        $linkUrl = $url;
+                        $linkUrl = preg_replace('/(viewPanel=)[^&]+/', '${1}' . $panelid, $linkUrl);
+                        $textLink = new Link('View in Grafana', $linkUrl, ['target' => '_blank', 'class' => 'external-link']);
+                        $html->add($textLink);
+                        $iconLink = new Link(new Icon('arrow-up-right-from-square', ['title' => 'View in Grafana']), $linkUrl, ['target' => '_blank', 'class' => 'external-link']);
+                        $html->add($iconLink);
+                    }
+
+                    $html->addHtml($previewHtml);
+                }
+                $i++;
+            } while ($i < count($info));
 
             $returnHtml->add($html);
         }

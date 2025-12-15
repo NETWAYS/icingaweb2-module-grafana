@@ -367,7 +367,6 @@ class GeneralConfigForm extends ConfigForm
                         'placeholder' => 30,
                         'description' => $this->translate('JWT Token expiration in seconds. A very short time is recommended. Default 30 seconds.'),
                         'required' => false,
-                        'class' => 'autosubmit',
                     ]
                 );
                 $this->addElement(
@@ -378,7 +377,6 @@ class GeneralConfigForm extends ConfigForm
                         'label' => $this->translate('JWT Issuer'),
                         'description' => $this->translate('The issuer of the token (e.g. URL of this system). Can be used as a validation when other systems receive the token. Default is empty, no issuer.'),
                         'required' => false,
-                        'class' => 'autosubmit',
                     ]
                 );
                 $this->addElement(
@@ -389,7 +387,6 @@ class GeneralConfigForm extends ConfigForm
                         'label' => $this->translate('JWT Subject (login)'),
                         'description' => $this->translate('The username or email to be used as login. Leave empty to use the Icinga Web username.'),
                         'required' => false,
-                        'class' => 'autosubmit',
                     ]
                 );
             }

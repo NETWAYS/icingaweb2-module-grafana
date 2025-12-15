@@ -1,4 +1,11 @@
 # Change Log
+## [v3.1.2](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.2) (2025-12-15)
+
+**Fixes**
+- Fix autosubmit for JWT options
+- Remove dashboard logic for monitoring module (was not in use anymore)
+- Update InfluxDB/Graphite example dashboards for Grafana 12
+
 ## [v3.1.1](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.1) (2025-04-30)
 
 **Fixes**

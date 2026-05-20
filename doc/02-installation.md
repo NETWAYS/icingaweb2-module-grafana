@@ -14,7 +14,7 @@ to the latest version, please [read on here](05-update.md).
 
 The Grafana Image Renderer handles rendering panels and dashboards to PNGs using a headless browser (Chromium).
 
-**Note:** Grafana Image Renderer was deprecated in September 2025 and removed in Grafana 13.
+**Note:** The Grafana Image Renderer Plugin was deprecated in September 2025 and removed in Grafana 13. The image renderer now exists only as a service that you can deploy separately alongside Grafana.
 
 A data source as a backend for Grafana. Either:
 

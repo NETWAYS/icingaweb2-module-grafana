@@ -138,7 +138,7 @@ This will speed up the page load, but the image will take some seconds to show u
 Pro: Very fast page loading, very secure.
 Contra: Images take some seconds to show up.
 
-**Note:** Grafana Image Renderer was deprecated in September 2025 and removed in Grafana 13.
+**Note:** The Grafana Image Renderer Plugin was deprecated in September 2025 and removed in Grafana 13. The image renderer now exists only as a service that you can deploy separately alongside Grafana.
 
 #### iframe
 In iframe mode you have the full power of Grafana features like mouse over tool tip.

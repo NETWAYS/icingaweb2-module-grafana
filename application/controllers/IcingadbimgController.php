@@ -52,6 +52,7 @@ class IcingadbimgController extends IcingadbGrafanaController
     protected $orgId;
     protected $detect;
     protected $timezone;
+    protected $imagefilter;
 
     /**
      * Mainly loading defaults and the configuration.
@@ -126,6 +127,9 @@ class IcingadbimgController extends IcingadbGrafanaController
         $this->dataSource = $this->myConfig->get('datasource', $this->dataSource);
         $this->shadows = $this->myConfig->get('shadows', $this->shadows);
         $this->custvarconfig = ($this->myConfig->get('custvarconfig', $this->custvarconfig));
+
+        $this->imagefilter = $this->hasParam('imagefilter') ? urldecode($this->getParam('imagefilter')) : "";
+
         $this->SSLVerifyHost = ($this->myConfig->get('ssl_verifyhost', $this->SSLVerifyHost));
         $this->SSLVerifyPeer = ($this->myConfig->get('ssl_verifypeer', $this->SSLVerifyPeer));
 
@@ -289,7 +293,7 @@ class IcingadbimgController extends IcingadbGrafanaController
 
         $pngUrl = sprintf(
             '%s://%s/render/d-solo/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&panelId=%s&orgId=%s&hideLogo=true'
-            . '&width=%s&height=%s&theme=%s&from=%s&to=%s&timezone=%s',
+            . '&width=%s&height=%s&theme=%s&from=%s&to=%s&timezone=%s%s',
             $this->protocol,
             $this->grafanaHost,
             $this->dashboarduid,
@@ -305,7 +309,8 @@ class IcingadbimgController extends IcingadbGrafanaController
             $this->grafanaTheme,
             urlencode($this->timerange),
             urlencode($this->timerangeto),
-            urlencode($this->timezone)
+            urlencode($this->timezone),
+            $this->imagefilter
         );
 
         // fetch image with curl

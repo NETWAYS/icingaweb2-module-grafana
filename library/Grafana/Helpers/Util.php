@@ -13,6 +13,13 @@ class Util
         return $string;
     }
 
+    public static function taosReplace(string $string = ''): string
+    {
+        $string = preg_replace('/[^a-zA-Z0-9\*\-:]/', '_', $string);
+
+        return $string;
+    }
+
     /**
      * getUserThemeMode returns the users configured Theme Mode.
      * Since we cannot handle the 'system' setting (it's client-side),

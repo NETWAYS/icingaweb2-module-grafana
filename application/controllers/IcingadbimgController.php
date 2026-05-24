@@ -204,6 +204,8 @@ class IcingadbimgController extends IcingadbGrafanaController
                 }
                 if ($this->dataSource == "graphite") {
                     $arr[1] = Util::graphiteReplace($arr[1]);
+                } elseif ($this->dataSource == "taos") {
+                    $arr[1] = Util::taosReplace($arr[1]);
                 }
                 $customVars .= '&' . $arr[0] . '=' . rawurlencode($arr[1]);
             }
@@ -214,6 +216,11 @@ class IcingadbimgController extends IcingadbGrafanaController
         if ($this->dataSource == "graphite") {
             $serviceName = Util::graphiteReplace($serviceName);
             $hostName = Util::graphiteReplace($hostName);
+        }
+
+        // Replace special chars for tsdb
+        if ($this->dataSource == "taos") {
+            $serviceName = Util::taosReplace($serviceName);
         }
 
         $imageHtml = "";

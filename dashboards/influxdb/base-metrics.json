@@ -47,7 +47,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -331,7 +330,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 3,
           "legend": {
@@ -615,7 +613,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 9,
           "legend": {
@@ -911,7 +908,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 2,
           "legend": {
@@ -1304,7 +1300,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 4,
           "legend": {
@@ -1680,7 +1675,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 5,
           "legend": {
@@ -2106,7 +2100,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 7,
           "legend": {
@@ -2361,7 +2354,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 6,
           "legend": {
@@ -2588,7 +2580,6 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 8,
           "legend": {
@@ -2828,7 +2819,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2-INFLUXDB}",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -2848,7 +2838,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2-INFLUXDB}",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -2868,7 +2857,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2-INFLUXDB}",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -2888,7 +2876,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2-INFLUXDB}",
         "hide": 0,
         "includeAll": false,
         "label": null,

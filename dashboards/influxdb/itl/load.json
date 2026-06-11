@@ -62,7 +62,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_ICINGA2}",
           "fill": 0,
           "id": 1,
           "legend": {

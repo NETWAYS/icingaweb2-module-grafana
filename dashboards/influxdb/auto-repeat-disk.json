@@ -48,7 +48,6 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_ICINGA2-INFLUXDB}",
           "fill": 1,
           "id": 1,
           "legend": {
@@ -228,7 +227,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2-INFLUXDB}",
         "hide": 2,
         "includeAll": true,
         "label": null,

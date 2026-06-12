@@ -63,7 +63,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2}",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -83,7 +82,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2}",
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -103,7 +101,6 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_ICINGA2}",
         "hide": 0,
         "includeAll": false,
         "label": null,

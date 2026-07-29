@@ -9,7 +9,6 @@ use Icinga\Authentication\Auth;
 use Icinga\Exception\ConfigurationError;
 use Icinga\Module\Grafana\Helpers\Util;
 use Icinga\Module\Icingadb\Model\CustomvarFlat;
-use Icinga\Util\TimezoneDetect;
 
 use ipl\Stdlib\Filter;
 use ipl\Web\Url;
@@ -50,7 +49,6 @@ class IcingadbimgController extends IcingadbGrafanaController
     protected $dashboarduid;
     protected $panelId;
     protected $orgId;
-    protected $detect;
     protected $timezone;
 
     /**
@@ -103,12 +101,7 @@ class IcingadbimgController extends IcingadbGrafanaController
         );
 
         $auth = Auth::getInstance();
-        if (! $auth->isAuthenticated()
-            || ($timezone = $auth->getUser()->getPreferences()->getValue('icingaweb', 'timezone')) === null
-        ) {
-            $this->detect = new TimezoneDetect();
-            $this->timezone = $this->detect->getTimezoneName();
-        }
+        $this->timezone = Util::getTimezone();
 
         $this->defaultOrgId = $this->myConfig->get('defaultorgid', $this->defaultOrgId);
         $this->grafanaTheme = Util::getUserThemeMode($auth->getUser(), $this->myConfig->get('theme', 'dark'));

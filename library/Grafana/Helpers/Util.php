@@ -2,10 +2,22 @@
 
 namespace Icinga\Module\Grafana\Helpers;
 
+use Icinga\Authentication\Auth;
 use Icinga\User;
+use Icinga\Util\TimezoneDetect;
 
 class Util
 {
+    public static function getTimezone(): string
+    {
+        $timezone = Auth::getInstance()->getUser()->getPreferences()->getValue('icingaweb', 'timezone');
+        if ($timezone === null) {
+            $timezone = (new TimezoneDetect())->getTimezoneName();
+        }
+
+        return $timezone;
+    }
+
     public static function graphiteReplace(string $string = ''): string
     {
         $string = preg_replace('/[^a-zA-Z0-9\*\-:]/', '_', $string);

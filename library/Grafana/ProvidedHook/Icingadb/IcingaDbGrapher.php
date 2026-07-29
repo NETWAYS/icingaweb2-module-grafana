@@ -37,8 +37,8 @@ trait IcingaDbGrapher
     use IcingaDbAuth;
 
     // Could be constants in the future, but for now we want to keep compatibility
-    protected $GRAFANA_URL = "%s://%s/d/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&from=%s&to=%s&orgId=%s&viewPanel=%s";
-    protected $GRAFANA_URL_SOLO = "%s://%s/d-solo/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&panelId=%s&orgId=%s&theme=%s&from=%s&to=%s&hideLogo=true";
+    protected $GRAFANA_URL = "%s://%s/d/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&from=%s&to=%s&orgId=%s&viewPanel=%s&timezone=%s";
+    protected $GRAFANA_URL_SOLO = "%s://%s/d-solo/%s/%s?var-hostname=%s&var-service=%s&var-command=%s%s&panelId=%s&orgId=%s&theme=%s&from=%s&to=%s&hideLogo=true&timezone=%s";
 
     protected $config;
     protected $graphConfig;
@@ -309,7 +309,8 @@ trait IcingaDbGrapher
                 $this->orgId,
                 $this->grafanaTheme,
                 urlencode($this->timerange),
-                urlencode($this->timerangeto)
+                urlencode($this->timerangeto),
+                Util::getTimezone(),
             );
 
             if ($this->jwtEnable) {
@@ -447,7 +448,8 @@ trait IcingaDbGrapher
             urlencode($this->timerange),
             urlencode($this->timerangeto),
             $this->orgId,
-            $this->panelId
+            $this->panelId,
+            Util::getTimezone(),
         );
 
         // Add a link to Grafana in the title

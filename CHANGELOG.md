@@ -1,8 +1,9 @@
 # Change Log
-## [v3.1.4](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.4) (unreleased)
+## [v3.1.4](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.4) (2026-07-30)
 
 **Fixes**
 - Hide Grafana logo
+- Fix timezone URL parameter
 
 ## [v3.1.3](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.3) (2026-03-09)
 

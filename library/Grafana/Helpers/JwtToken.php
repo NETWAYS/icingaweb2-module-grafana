@@ -15,7 +15,7 @@ class JwtToken
     /**
      * Create JWT Token
      */
-    public static function create(string $sub, int $exp = 0, string $iss = null, array $claims = null): string
+    public static function create(string $sub, int $exp = 0, ?string $iss = null, ?array $claims = null): string
     {
         $privateKeyFile = JwtToken::JWT_PRIVATEKEY_FILE;
 

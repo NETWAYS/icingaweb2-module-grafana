@@ -204,6 +204,7 @@ trait IcingaDbGrapher
     {
         $this->graphConfig = Config::module('grafana', 'graphs');
 
+        // TODO Replace strtok with explode
         if ($this->graphConfig->hasSection(strtok($serviceName, ' '))
             && ($this->graphConfig->hasSection($serviceName) === false)) {
             $serviceName = strtok($serviceName, ' ');

@@ -79,7 +79,7 @@ class IcingadbimgController extends IcingadbGrafanaController
         // Load global configuration
         $this->myConfig = Config::module('grafana')->getSection('grafana');
         $this->grafanaHost = $this->myConfig->get('host', $this->grafanaHost);
-        if ($this->grafanaHost == null) {
+        if ($this->grafanaHost === null) {
             throw new ConfigurationError(
                 'No Grafana host configured!'
             );
@@ -111,7 +111,7 @@ class IcingadbimgController extends IcingadbGrafanaController
         $this->enableCache = $this->myConfig->get('enablecache', $this->enableCache);
 
         // Read the global default timerange
-        if ($this->timerange == null) {
+        if ($this->timerange === null) {
             $this->timerange = $this->config->get('timerange', $this->timerange);
         }
 
@@ -125,7 +125,7 @@ class IcingadbimgController extends IcingadbGrafanaController
         // Username & Password or token
         $this->apiToken = $this->myConfig->get('apitoken', $this->apiToken);
         $this->authentication = $this->myConfig->get('authentication');
-        if ($this->apiToken == null && $this->authentication == "token") {
+        if ($this->apiToken === null && $this->authentication === "token") {
             throw new ConfigurationError(
                 'API token usage configured, but no token given!'
             );
@@ -195,7 +195,7 @@ class IcingadbimgController extends IcingadbGrafanaController
                 if (preg_match('/^\$.*\$$/', $arr[1])) {
                     $arr[1] = '';
                 }
-                if ($this->dataSource == "graphite") {
+                if ($this->dataSource === "graphite") {
                     $arr[1] = Util::graphiteReplace($arr[1]);
                 }
                 $customVars .= '&' . $arr[0] . '=' . rawurlencode($arr[1]);
@@ -204,7 +204,7 @@ class IcingadbimgController extends IcingadbGrafanaController
         }
 
         // Replace special chars for graphite
-        if ($this->dataSource == "graphite") {
+        if ($this->dataSource === "graphite") {
             $serviceName = Util::graphiteReplace($serviceName);
             $hostName = Util::graphiteReplace($hostName);
         }
@@ -245,15 +245,16 @@ class IcingadbimgController extends IcingadbGrafanaController
     {
         $graphConfig = Config::module('grafana', 'graphs');
 
-        if ($graphConfig->hasSection(strtok($serviceName, ' ')) && ($graphConfig->hasSection($serviceName) == false)) {
+        // TODO Replace strtok with explode
+        if ($graphConfig->hasSection(strtok($serviceName, ' ')) && ($graphConfig->hasSection($serviceName) === false)) {
             $serviceName = strtok($serviceName, ' ');
         }
 
-        if ($graphConfig->hasSection(strtok($serviceName, ' ')) == false
-            && ($graphConfig->hasSection($serviceName) == false)
+        if ($graphConfig->hasSection(strtok($serviceName, ' ')) === false
+            && ($graphConfig->hasSection($serviceName) === false)
         ) {
             $serviceName = $serviceCommand;
-            if ($graphConfig->hasSection($serviceCommand) == false && $this->defaultDashboard == 'none') {
+            if ($graphConfig->hasSection($serviceCommand) === false && $this->defaultDashboard === 'none') {
                 return null;
             }
         }
@@ -313,7 +314,7 @@ class IcingadbimgController extends IcingadbGrafanaController
             CURLOPT_TIMEOUT => $this->proxyTimeout,
         ];
 
-        if ($this->authentication == "token") {
+        if ($this->authentication === "token") {
             $curl_opts[CURLOPT_HTTPHEADER] = [
                 'Content-Type: application/json',
                 "Authorization: Bearer ". $this->apiToken
@@ -331,7 +332,7 @@ class IcingadbimgController extends IcingadbGrafanaController
             $imageHtml .=$this->translate('Cannot fetch graph with curl') .': '. curl_error($curl_handle). '.';
 
             // Provide a hint for 'Failed to connect to ...: Permission denied'
-            if (curl_errno($curl_handle) == 7) {
+            if (curl_errno($curl_handle) === 7) {
                 $imageHtml .= $this->translate('Check SELinux or firewall');
             }
             return false;

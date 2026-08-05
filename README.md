@@ -2,13 +2,19 @@
 
 This fork was created to provide bug fixes and maintenance.
 
-**Note:** Check out the perfdatagraphs module as an alternative. https://github.com/NETWAYS/icingaweb2-module-perfdatagraphs
+We do not intend to add new major features to this module.
 
-You can find the complete documentation inside the [doc](doc/) folder.
+**Important:**
+
+If you are looking for a more modern and flexible graphing solution for Icinga Web check out the "Performance Data Graphs module": https://github.com/NETWAYS/icingaweb2-module-perfdatagraphs
+
+The Performance Data Graphs module does not require Grafana and supports more backends for the data.
 
 ## About
 
 Add Grafana graphs into Icinga Web 2 to display performance metrics.
+
+You can find the complete documentation inside the [doc](doc/) folder.
 
 <table border="0">
 <tr>
@@ -35,11 +41,3 @@ Join the [Icinga community channels](https://icinga.com/community/) for question
 This module borrows a lot from https://github.com/Icinga/icingaweb2-module-generictts & https://github.com/Icinga/icingaweb2-module-pnp.
 
 This is a fork of https://github.com/Mikesch-mp/icingaweb2-module-grafana/
-
-## Contributing
-
-There are many ways to contribute to the Icinga Web module for Grafana --
-whether it be sending patches, testing, reporting bugs, or reviewing and
-updating the documentation. Every contribution is appreciated!
-
-Please continue reading in the [contributing chapter](CONTRIBUTING.md).

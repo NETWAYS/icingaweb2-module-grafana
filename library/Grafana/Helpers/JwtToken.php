@@ -68,7 +68,7 @@ class JwtToken
     {
         //  Verify that the algorithm is compatible with asymmetric keys
         if ($algorithm !== 'RS256' && $algorithm !== 'RS512') {
-            throw new InvalidArgumentException("Unsupported algorithm for assymmetric keys: $algorithm");
+            throw new InvalidArgumentException("Unsupported algorithm for asymmetric keys: $algorithm");
         }
 
         // Define the JWT header

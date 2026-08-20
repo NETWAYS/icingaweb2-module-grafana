@@ -20,7 +20,7 @@ class Util
 
     public static function graphiteReplace(string $string = ''): string
     {
-        $string = preg_replace('/[^a-zA-Z0-9\*\-:]/', '_', $string);
+        $result = preg_replace('/[^a-zA-Z0-9\*\-:]/', '_', $string);
         // Fallback to original or empty string
         return $result !== null ? $result : $string;
     }

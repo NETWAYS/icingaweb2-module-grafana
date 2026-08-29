@@ -409,6 +409,11 @@ trait IcingaDbGrapher
             $hostName = Util::graphiteReplace($hostName);
         }
 
+        // Replace special chars for tsdb
+        if ($this->dataSource == "taos" && $this->accessMode !== "indirectproxy") {
+            $serviceName = Util::taosReplace($serviceName);
+        }
+
         if (! empty($this->customVars)) {
             // replace template to customVars from Icinga2
             foreach ($customvars as $k => $v) {
@@ -427,6 +432,8 @@ trait IcingaDbGrapher
                 }
                 if ($this->dataSource === "graphite") {
                     $arr[1] = Util::graphiteReplace($arr[1]);
+                } elseif ($this->dataSource == "taos") {
+                    $arr[1] = Util::taosReplace($arr[1]);
                 }
                 $customVars .= '&' . $arr[0] . '=' . rawurlencode(implode('=', array_slice($arr, 1)));
             }
@@ -443,7 +450,7 @@ trait IcingaDbGrapher
             $this->dashboarduid,
             $this->dashboard,
             rawurlencode(($this->dataSource === 'graphite' ? Util::graphiteReplace($hostName) : $hostName)),
-            rawurlencode(($this->dataSource === 'graphite' ? Util::graphiteReplace($serviceName) : $serviceName)),
+            rawurlencode(($this->dataSource === 'graphite' ? Util::graphiteReplace($serviceName) : ($this->dataSource === 'taos' ? Util::taosReplace($serviceName) : $serviceName))),
             rawurlencode($object->checkcommand_name),
             $this->customVars,
             urlencode($this->timerange),

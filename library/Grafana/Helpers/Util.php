@@ -15,7 +15,7 @@ class Util
             $timezone = (new TimezoneDetect())->getTimezoneName();
         }
 
-        return $timezone;
+        return $timezone ?: 'UTC';
     }
 
     public static function graphiteReplace(string $string = ''): string

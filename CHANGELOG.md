@@ -1,10 +1,15 @@
 # Change Log
+
+## [v3.1.6](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.6) (2026-10-30)
+
+**Fixes**
+- Fix timezone fallback when detection returns null
+
 ## [v3.1.5](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.5) (2026-08-31)
 
 **Fixes**
 - Fix undefined variable in Util::graphiteReplace
 
-# Change Log
 ## [v3.1.4](https://github.com/NETWAYS/icingaweb2-module-grafana/tree/v3.1.4) (2026-07-30)
 
 **Fixes**

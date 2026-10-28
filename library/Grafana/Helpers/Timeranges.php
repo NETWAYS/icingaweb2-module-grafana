@@ -32,7 +32,7 @@ class Timeranges
             '30d' => '30 days',
         ],
         'Months' => [
-            '2M' => '2 month',
+            '2M' => '2 months',
             '6M' => '6 months',
             '9M' => '9 months'
         ],

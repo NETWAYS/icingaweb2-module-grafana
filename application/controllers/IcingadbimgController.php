@@ -232,7 +232,6 @@ class IcingadbimgController extends IcingadbGrafanaController
             imagepng($im);
             $img = ob_get_contents();
             ob_end_clean();
-            imagedestroy($im);
 
             print $img;
         } else {
@@ -350,7 +349,6 @@ class IcingadbimgController extends IcingadbGrafanaController
             return false;
         }
 
-        curl_close($curl_handle);
         $imageHtml = $result;
 
         return true;
